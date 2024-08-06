@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container-ecommerce
+    restart: always
+    environment:
+      MYSQL_DATABASE: enterprise_modelling
+      MYSQL_USER: sherie
+      MYSQL_ROOT_PASSWORD: Password123@@
+      MYSQL_PASSWORD: Password123@@
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - internal_network
+
+  eureka-service:
+    image: eureka-service:1.0.0
+    container_name: eureka-container-ecommerce
+    ports:
+      - "8761:8761"
+    depends_on:
+      - mysql
+    networks:
+      - internal_network
+
+  products-service:
+    image: product-service:0.0.1-SNAPSHOT
+    container_name: products-service-container
+    depends_on:
+      - mysql
+    networks:
+      - internal_network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3308/enterprise_modelling
+      SPRING_DATASOURCE_USERNAME: sherie
+      SPRING_DATASOURCE_PASSWORD: Password123@@
+
+networks:
+  internal_network:
+    external: false
+    name: sherie-network
+
+
+volumes:
+  mysql-data:
