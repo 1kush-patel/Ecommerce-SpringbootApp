@@ -1,4 +1,4 @@
-package com.example.products;
+package humber.kush.productservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
