@@ -10,7 +10,7 @@
     </parent>
     <groupId>humber.kush</groupId>
     <artifactId>product-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.2</version>
     <name>product-service</name>
     <description>product-service</description>
     <url/>
@@ -95,11 +95,11 @@
                 <version>3.4.1</version>
                 <configuration>
                     <to>
-                        <image>${project.name}:${project.version}</image>
+                        <image>ecommerce/${project.name}:${project.version}</image>
                     </to>
                     <container>
                         <jvmFlags>
-                            <jvmFlag>-Dspring.profiles.active=prod</jvmFlag>
+                            <jvmFlag>-Dspring.profiles.active=dev</jvmFlag>
                         </jvmFlags>
                     </container>
                 </configuration>

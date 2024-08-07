@@ -26,6 +26,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -52,7 +53,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <to>
-                        <image>${project.name}:${project.version}</image>
+                        <image>ecommerce/${project.name}:${project.version}</image>
                     </to>
                     <container>
                         <jvmFlags>
