@@ -1,4 +1,4 @@
-package com.example.products;
+package humber.kush.productservice;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
