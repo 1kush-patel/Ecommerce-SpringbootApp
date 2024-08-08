@@ -1,4 +1,4 @@
-package me.sherie.productservice.model;
+package humber.kush.productservice.model;
 
 
 import jakarta.persistence.*;

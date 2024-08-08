@@ -1,7 +1,7 @@
-package me.sherie.productservice.controller;
+package humber.kush.productservice.controller;
 
-import me.sherie.productservice.model.Product;
-import me.sherie.productservice.service.ProductService;
+import humber.kush.productservice.model.Product;
+import humber.kush.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

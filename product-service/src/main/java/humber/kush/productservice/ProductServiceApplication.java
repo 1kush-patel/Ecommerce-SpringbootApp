@@ -1,4 +1,4 @@
-package me.sherie.productservice;
+package humber.kush.productservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

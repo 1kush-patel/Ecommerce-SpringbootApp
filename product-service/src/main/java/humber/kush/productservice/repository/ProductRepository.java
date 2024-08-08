@@ -1,6 +1,6 @@
-package me.sherie.productservice.repository;
+package humber.kush.productservice.repository;
 
-import me.sherie.productservice.model.Product;
+import humber.kush.productservice.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

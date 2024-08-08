@@ -1,4 +1,4 @@
-package me.sherie.productservice;
+package humber.kush.productservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
