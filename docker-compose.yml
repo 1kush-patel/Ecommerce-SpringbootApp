@@ -35,7 +35,7 @@ services:
     networks:
       - internal_network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3308/enterprise_modelling
+      SPRING_DATASOURCE_URL: 127.0.0.1:3308/enterprise_modelling
       SPRING_DATASOURCE_USERNAME: sherie
       SPRING_DATASOURCE_PASSWORD: Password123@@
 

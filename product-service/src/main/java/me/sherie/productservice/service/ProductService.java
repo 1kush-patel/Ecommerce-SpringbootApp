@@ -1,5 +1,7 @@
-package humber.kush.productservice;
+package me.sherie.productservice.service;
 
+import me.sherie.productservice.model.Product;
+import me.sherie.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
