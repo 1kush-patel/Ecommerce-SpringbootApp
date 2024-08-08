@@ -1,38 +1,31 @@
 package humber.kush.orderservice.model;
 
-
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "Orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "order_date", nullable = false, updatable = false)
-    private LocalDateTime orderDate ;
+    private LocalDateTime orderDate;
 
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
 
+    @Column(name = "product_id")
+    private Long productId;
 
-    public Order(Long id, LocalDateTime orderDate, BigDecimal totalPrice) {
-        this.id = id;
-        this.orderDate = orderDate;
-        this.totalPrice = totalPrice;
-    }
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
-    public Order() {
-
-    }
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -56,5 +49,21 @@ public class Order {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

@@ -23,11 +23,7 @@ public class OrderService {
     public Order createOrder(Order order) {
         order.setOrderDate(LocalDateTime.now());
         Order createdOrder = orderRepository.save(order);
-        // Publish an event to Kafka
-//        String eventMessage = String.format("Order ID: %s, Product ID: %s, Quantity: %d",
-//                createdOrder.getId(), createdOrder.getProductId(), createdOrder.getQuantity());
-//        kafkaTemplate.send(TOPIC, eventMessage);
-//
+      
        return createdOrder;
     }
 
@@ -39,7 +35,17 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    public Order updateOrder(Order order) {
+        if (order.getId() == null || !orderRepository.existsById(order.getId())) {
+            throw new IllegalArgumentException("Order with given ID does not exist.");
+        }
+        return orderRepository.save(order);
+    }
+
     public void deleteOrder(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new IllegalArgumentException("Order with given ID does not exist.");
+        }
         orderRepository.deleteById(id);
     }
 }
