@@ -11,9 +11,13 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductMapper productMapper;
 
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDTO createProduct(ProductDTO product) {
+        Product newProduct = productMapper.toEntity(product);
+        Product savedProduct = productRepository.save(newProduct);
+        return productMapper.toDTO(savedProduct);
     }
 
     public List<Product> getAllProducts() {
