@@ -1,4 +1,24 @@
+version: '3.8'
+
 services:
+  eureka-service:
+    image: ecommerce/eureka-service:1.0.0
+    container_name: eureka-container-ecommerce
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_CLIENT_REGISTERWITHEUREKA=false
+      - EUREKA_CLIENT_FETCHREGISTRY=false
+    depends_on:
+      - mysql
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/eureka/apps"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   mysql:
     image: mysql:latest
     container_name: mysql-container-ecommerce
@@ -14,6 +34,11 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - internal_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   gateway-service:
     image: ecommerce/gateway-service:1.0.0
@@ -21,65 +46,102 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      - eureka-service
       - mysql
     networks:
       - internal_network
-
-  eureka-service:
-    image: ecommerce/eureka-service:1.0.0
-    container_name: eureka-container-ecommerce
-    ports:
-      - "8761:8761"
-    depends_on:
-      - mysql
-    networks:
-      - internal_network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/eureka/apps"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   product-service:
     image: ecommerce/product-service:1.0.2
     container_name: product-container-ecommerce
     depends_on:
-      - mysql
-    networks:
-      - internal_network
-
-  admin-service:
-    image: ecommerce/admin-service:1.0.0
-    container_name: admin-container-ecommerce
-    depends_on:
+      - eureka-service
       - mysql
     networks:
       - internal_network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3308/enterprise_modelling
-      SPRING_DATASOURCE_USERNAME: sherie
-      SPRING_DATASOURCE_PASSWORD: Password123@@
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/enterprise_modelling
+      - SPRING_DATASOURCE_USERNAME=sherie
+      - SPRING_DATASOURCE_PASSWORD=Password123@@
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/eureka/apps"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  admin-service:
+    image: ecommerce/admin-service:1.0.0
+    container_name: admin-container-ecommerce
+#    ports:
+#      - "9090:9090"
+    depends_on:
+      - eureka-service
+      - mysql
+    networks:
+      - internal_network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/enterprise_modelling
+      - SPRING_DATASOURCE_USERNAME=sherie
+      - SPRING_DATASOURCE_PASSWORD=Password123@@
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://eureka-service:8761/eureka/apps"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   order-service:
     image: ecommerce/order-service:1.0.0
     container_name: order-container-ecommerce
     depends_on:
+      - eureka-service
       - mysql
     networks:
       - internal_network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3308/enterprise_modelling
-      SPRING_DATASOURCE_USERNAME: sherie
-      SPRING_DATASOURCE_PASSWORD: Password123@@
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/enterprise_modelling
+      - SPRING_DATASOURCE_USERNAME=sherie
+      - SPRING_DATASOURCE_PASSWORD=Password123@@
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/eureka/apps"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   image-service:
     image: ecommerce/image-service:1.0.0
     container_name: image-container-ecommerce
     depends_on:
+      - eureka-service
       - mysql
     networks:
       - internal_network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/enterprise_modelling
+      - SPRING_DATASOURCE_USERNAME=sherie
+      - SPRING_DATASOURCE_PASSWORD=Password123@@
+    volumes:
+      - image-data:/app/images
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/eureka/apps"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 networks:
   internal_network:
-    external: false
     name: sherie-network
-
 
 volumes:
   mysql-data:
+  image-data:
