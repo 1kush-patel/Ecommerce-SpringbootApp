@@ -20,12 +20,14 @@ public class ProductService {
         return productMapper.toDTO(savedProduct);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDTO> getAllProducts() {
+        List<Product> productList = productRepository.findAll();
+        return productMapper.toDTOList(productList);
     }
 
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public Optional<ProductDTO> getProductById(Long id) {
+        Optional<Product> newProduct = productRepository.findById(id);
+        return Optional.ofNullable(productMapper.toDTOOptional(newProduct));
     }
 
     public void deleteProduct(Long id) {
