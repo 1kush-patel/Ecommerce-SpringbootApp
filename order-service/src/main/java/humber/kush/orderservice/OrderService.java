@@ -39,4 +39,10 @@ public class OrderService {
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
+
+    public OrderDTO updateOrder(Long id, OrderDTO orderDTO) {
+        orderDTO.setId(id);
+        OrderDTO updatedOrder = orderMapper.toDTO(orderRepository.save(orderMapper.toEntity(orderDTO)));
+        return updatedOrder;
+    }
 }
