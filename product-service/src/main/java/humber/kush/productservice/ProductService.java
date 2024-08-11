@@ -26,11 +26,17 @@ public class ProductService {
     }
 
     public Optional<ProductDTO> getProductById(Long id) {
-        Optional<Product> newProduct = productRepository.findById(id);
-        return Optional.ofNullable(productMapper.toDTOOptional(newProduct));
+        return productRepository.findById(id)
+                .map(productMapper::toDTO);
     }
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+    }
+    public ProductDTO updateProduct(Long id, ProductDTO product) {
+        Product newProduct = productMapper.toEntity(product);
+        newProduct.setId(id);
+        Product updatedProduct = productRepository.save(newProduct);
+        return productMapper.toDTO(updatedProduct);
     }
 }
