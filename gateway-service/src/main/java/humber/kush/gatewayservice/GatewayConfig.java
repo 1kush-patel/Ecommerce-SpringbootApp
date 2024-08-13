@@ -14,6 +14,7 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+                // redirecting all admin related request to the core service
                 .route("admin", r -> r.path("/api/admin/**")
                         .filters(f -> f.rewritePath("/api/(?<service>.*)/(?<remaining>.*)",
                                         "/${service}/${remaining}")
@@ -21,6 +22,8 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback"))
                         )
                         .uri("lb://ADMIN-SERVICE"))
+
+                // redirecting fetching all the products request to the core product service
                 .route("all-products", r -> r.path("/api/all-products")
                         .filters(f -> f.rewritePath("/api/all-(?<service>.*)",
                                         "/${service}")
@@ -28,6 +31,8 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback"))
                         )
                         .uri("lb://PRODUCT-SERVICE"))
+
+                // redirecting fetching all the orders request to the core order service
                 .route("all-orders", r -> r.path("/api/all-orders")
                         .filters(f -> f.rewritePath("/api/all-(?<service>.*)",
                                         "/${service}")
@@ -35,6 +40,8 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback"))
                         )
                         .uri("lb://ORDER-SERVICE"))
+
+                // redirecting create product request to the core product service
                 .route("create-products", r -> r.path("/api/create-products")
                         .filters(f -> f.rewritePath("/api/create-(?<service>.*)",
                                         "/${service}/create")
@@ -42,6 +49,8 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback"))
                         )
                         .uri("lb://PRODUCT-SERVICE"))
+
+                // redirecting create order request to the core orders service
                 .route("create-orders", r -> r.path("/api/create-orders")
                         .filters(f -> f.rewritePath("/api/create-(?<service>.*)",
                                         "/${service}/create")
@@ -49,6 +58,8 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback"))
                         )
                         .uri("lb://ORDER-SERVICE"))
+
+                // redirecting all remaining prducts related request to the core product service
                 .route("product", r -> r.path("/api/products/**")
                         .filters(f -> f.rewritePath("/api/(?<service>.*)/(?<remaining>.*)",
                                         "/${service}/${remaining}")
@@ -56,6 +67,8 @@ public class GatewayConfig {
                                         .setFallbackUri("forward:/fallback"))
                         )
                         .uri("lb://PRODUCT-SERVICE"))
+
+                // redirecting all remaining order related request to the core order service
                     .route("order", r -> r.path("/api/orders/**")
                         .filters(f -> f.rewritePath("/api/(?<service>.*)/(?<remaining>.*)",
                                         "/${service}/${remaining}")
