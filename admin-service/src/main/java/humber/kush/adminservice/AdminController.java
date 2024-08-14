@@ -12,6 +12,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin (origins = {"http://localhost:3000","http://localhost:5000"})
 public class AdminController {
 
     private RestTemplate restTemplate;

@@ -1,8 +1,10 @@
 package humber.kush.orderservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,13 +14,19 @@ import java.util.Optional;
 @RequestMapping("/orders")
 public class OrderController {
 
+    StreamBridge streamBridge;
+    public OrderController(StreamBridge streamBridge){
+
+        this.streamBridge = streamBridge;
+    }
     @Autowired
     private OrderService orderService;
 
     @PostMapping("create")
     public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
         OrderDTO createdOrder = orderService.createOrder(orderDTO);
-
+        //OrderPlacedEvent event = new OrderPlacedEvent(orderDTO.getId(), orderDTO.getProductId(), orderDTO.getQuantity());
+        //streamBridge.send("order-placed", event);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 

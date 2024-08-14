@@ -1,6 +1,7 @@
 package humber.kush.productservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,11 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
+//    public void consumeOrderPlacedEvent(OrderPlacedEvent event) {
+//        ProductDTO product = getProductById(event.getProductIds()).get();
+//        product.setStock(product.getStock()-event.getQuantities());
+//        productRepository.save(productMapper.toEntity(product));
+//    }
     public ProductDTO createProduct(ProductDTO product) {
         Product newProduct = productMapper.toEntity(product);
         Product savedProduct = productRepository.save(newProduct);
